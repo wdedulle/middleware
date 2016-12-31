@@ -1,4 +1,3 @@
-
 /*
  ============================================================================
  Name        : c_practice.c
@@ -12,7 +11,7 @@
  "C:\Data\lib\iconv\bin\libxml2-2.dll"
 
  Unix
-gcc `xml2-config --cflags --libs` -o c_practice c_practice.c -lsocket
+ gcc `xml2-config --cflags --libs` -o c_practice c_practice.c -lsocket
 
  ============================================================================
  */
@@ -64,33 +63,11 @@ void bindSocket() {
 		SOCKET new_socket;
 
 		while ((new_socket = accept(s, (struct sockaddr *) &client, &c))
-				!= INVALID_SOCKET ) {
-			int recv_size;
-			char clientRequest[SO_MAX_MSG_SIZE];
-			//Receive a reply from the server
-			if ((recv_size = recv(new_socket, clientRequest, SO_MAX_MSG_SIZE, 0))
-					== SOCKET_ERROR) {
-				puts("recv failed");
-			}
+				!= INVALID_SOCKET) {
 
-			//Add a NULL terminating character to make it a proper string before printing
-			clientRequest[recv_size] = '\0';
+			handleClientSocket(new_socket);
 
-			puts(clientRequest);
-			char * requestPayload;
-			char *message;
-			if(( requestPayload = strstr(clientRequest, "\r\n\r\n")) != NULL) {
-				if( xmlProcess(requestPayload) == 0) {
-					message = "HTTP/1.x 200 OK\r\nContent-Length: 19\r\n\r\n<xml>received</xml>";
-				} else {
-					message = "HTTP/1.x 200 OK\r\nContent-type: application/xml\r\nContent-Length: 26\r\n\r\n<xml>failed to parse</xml>";
-				}
-			} else {
-				message = "HTTP/1.x 200 OK\r\nContent-type: application/xml\r\nContent-Length: 13\r\n\r\n<xml>no</xml>";
-			}
-			puts(message);
-
-			send(new_socket , message , (int)strlen(message) , 0);
+			send(new_socket, message, (int) strlen(message), 0);
 
 			sockClose(new_socket);
 		}
@@ -100,4 +77,34 @@ void bindSocket() {
 		sockQuit();
 		printf("Socket quit.\n");
 	}
+}
+
+void handleClientSocket(SOCKET new_socket) {
+	int recv_size;
+	char clientRequest[SO_MAX_MSG_SIZE];
+	//Receive a reply from the server
+	if ((recv_size = recv(new_socket, clientRequest, SO_MAX_MSG_SIZE, 0))
+			== SOCKET_ERROR) {
+		puts("recv failed");
+	}
+
+	//Add a NULL terminating character to make it a proper string before printing
+	clientRequest[recv_size] = '\0';
+
+	puts(clientRequest);
+	char * requestPayload;
+	char *message;
+	if ((requestPayload = strstr(clientRequest, "\r\n\r\n")) != NULL) {
+		if (xmlProcess(requestPayload) == 0) {
+			message =
+					"HTTP/1.x 200 OK\r\nContent-Length: 19\r\n\r\n<xml>received</xml>";
+		} else {
+			message =
+					"HTTP/1.x 200 OK\r\nContent-type: application/xml\r\nContent-Length: 26\r\n\r\n<xml>failed to parse</xml>";
+		}
+	} else {
+		message =
+				"HTTP/1.x 200 OK\r\nContent-type: application/xml\r\nContent-Length: 13\r\n\r\n<xml>no</xml>";
+	}
+	puts(message);
 }
