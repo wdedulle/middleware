@@ -1,3 +1,4 @@
+
 /*
  ============================================================================
  Name        : c_practice.c
@@ -17,28 +18,29 @@ gcc `xml2-config --cflags --libs` -o c_practice c_practice.c -lsocket
  */
 #pragma pack(1)
 
-#include "c_practice.h"
+#include "main.h"
 
 int main(void) {
 
-	Individual person = { "test", "mij" };
+//	Individual person = { "test", "mij" };
+//
+//	PartyType partyType;
+//	partyType.individual = &person;
+//
+//	Party party;
+//	party.partyId = "ddddd";
+//	party.partyType = &partyType;
+//
+//	printf("union size %d\n", (int) sizeof(PartyType));
+//
+//	printf("First name:\t%s\nLast name:\t %s\n", person.first_name,
+//			person.last_name);
+//
+//	printf("Party First name:\t%s\nParty Last name:\t %s\n",
+//			party.partyType->individual->first_name,
+//			party.partyType->individual->last_name);
 
-	PartyType partyType;
-	partyType.individual = &person;
-
-	Party party;
-	party.partyId = "ddddd";
-	party.partyType = &partyType;
-
-	printf("union size %d\n", (int) sizeof(PartyType));
-
-	printf("First name:\t%s\nLast name:\t %s\n", person.first_name,
-			person.last_name);
-
-	printf("Party First name:\t%s\nParty Last name:\t %s\n",
-			party.partyType->individual->first_name,
-			party.partyType->individual->last_name);
-
+	printf("starting socket binding...\n");
 	bindSocket();
 
 	return EXIT_SUCCESS;

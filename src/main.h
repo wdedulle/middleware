@@ -5,8 +5,8 @@
  *      Author: wdedul01
  */
 
-#ifndef C_PRACTICE_H_
-#define C_PRACTICE_H_
+#ifndef MAIN_H_
+#define MAIN_H_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,4 +17,4 @@
 
 void bindSocket();
 
-#endif /* C_PRACTICE_H_ */
+#endif /* MAIN_H_ */
