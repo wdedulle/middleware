@@ -67,8 +67,6 @@ void bindSocket() {
 
 			handleClientSocket(new_socket);
 
-			send(new_socket, message, (int) strlen(message), 0);
-
 			sockClose(new_socket);
 		}
 
@@ -107,4 +105,6 @@ void handleClientSocket(SOCKET new_socket) {
 				"HTTP/1.x 200 OK\r\nContent-type: application/xml\r\nContent-Length: 13\r\n\r\n<xml>no</xml>";
 	}
 	puts(message);
+
+	send(new_socket, message, (int) strlen(message), 0);
 }
