@@ -6,7 +6,9 @@
  Copyright   : Your copyright notice
  Description : Practice C, Ansi-style
  Windows
+ Using the standard winsock
  -lws2_32
+ using libxml from http://xmlsoft.org/sources/win32/64bit/
  -I"C:\Data\lib\libxml\include"
  "C:\Data\lib\iconv\bin\libxml2-2.dll"
 
