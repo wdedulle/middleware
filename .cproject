@@ -32,11 +32,18 @@
 								<option id="gnu.c.compiler.cygwin.exe.debug.option.debugging.level.531003982" name="Debug Level" superClass="gnu.c.compiler.cygwin.exe.debug.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.dialect.std.295770291" name="Language standard" superClass="gnu.c.compiler.option.dialect.std" value="gnu.c.compiler.dialect.default" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.warnings.extrawarn.1551670734" name="Extra warnings (-Wextra)" superClass="gnu.c.compiler.option.warnings.extrawarn" value="false" valueType="boolean"/>
+								<option id="gnu.c.compiler.option.include.paths.1944073959" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;C:\Data\lib\libxml\includel&quot;"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.cygwin.1257115788" superClass="cdt.managedbuild.tool.gnu.c.compiler.input.cygwin"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.cygwin.exe.debug.927686530" name="Cygwin C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.cygwin.exe.debug">
 								<option id="gnu.c.link.option.libs.916655695" name="Libraries (-l)" superClass="gnu.c.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="wsock32"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="pthread"/>
+								</option>
+								<option id="gnu.c.link.option.userobjs.703396683" name="Other objects" superClass="gnu.c.link.option.userobjs" valueType="userObjs">
+									<listOptionValue builtIn="false" value="&quot;C:\Data\lib\iconv\bin\libxml2-2.dll&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.468298421" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
@@ -82,7 +89,7 @@
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.cygwin.exe.release.897403752" name="Cygwin C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.cygwin.exe.release">
 								<option defaultValue="gnu.c.optimization.level.most" id="gnu.c.compiler.cygwin.exe.release.option.optimization.level.1544932863" name="Optimization Level" superClass="gnu.c.compiler.cygwin.exe.release.option.optimization.level" valueType="enumerated"/>
 								<option id="gnu.c.compiler.cygwin.exe.release.option.debugging.level.342027753" name="Debug Level" superClass="gnu.c.compiler.cygwin.exe.release.option.debugging.level" value="gnu.c.debugging.level.none" valueType="enumerated"/>
-								<option id="gnu.c.compiler.option.include.paths.460236879" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
+								<option id="gnu.c.compiler.option.include.paths.460236879" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;C:\Data\lib\libxml\include&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.cygwin.843817674" superClass="cdt.managedbuild.tool.gnu.c.compiler.input.cygwin"/>
@@ -90,8 +97,9 @@
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.cygwin.exe.release.732116826" name="Cygwin C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.cygwin.exe.release">
 								<option id="gnu.c.link.option.libs.1919395731" name="Libraries (-l)" superClass="gnu.c.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="wsock32"/>
+									<listOptionValue builtIn="false" value="pthread"/>
 								</option>
-								<option id="gnu.c.link.option.userobjs.1758112076" superClass="gnu.c.link.option.userobjs" valueType="userObjs">
+								<option id="gnu.c.link.option.userobjs.1758112076" name="Other objects" superClass="gnu.c.link.option.userobjs" valueType="userObjs">
 									<listOptionValue builtIn="false" value="&quot;C:\Data\lib\iconv\bin\libxml2-2.dll&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.1161618743" superClass="cdt.managedbuild.tool.gnu.c.linker.input">

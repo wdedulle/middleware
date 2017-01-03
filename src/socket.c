@@ -1,7 +1,7 @@
 /*
  * socket.c
  *
- *  Created on: 29-dec.-2016
+ *  Created on: 3-jan.-2017
  *      Author: wdedul01
  */
 
@@ -19,6 +19,7 @@
 #include <netdb.h>  /* Needed for getaddrinfo() and freeaddrinfo() */
 #include <unistd.h> /* Needed for close() */
 #endif
+
 
 int sockInit(void) {
 #ifdef _WIN32
@@ -57,15 +58,15 @@ int sockClose(SOCKET sock) {
 
 }
 
-int sockBind(SOCKET sock) {
+int sockBind(SOCKET sock, int port) {
 	struct sockaddr_in server;
 	server.sin_addr.s_addr = INADDR_ANY;
 	server.sin_family = AF_INET;
-	server.sin_port = htons(8888);
+	server.sin_port = htons(port);
 
 	//Bind
 	if (bind(sock, (struct sockaddr *) &server, sizeof(server)) == SOCKET_ERROR) {
-		return 1;
+		return -1;
 	}
 
 	return 0;

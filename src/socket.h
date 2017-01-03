@@ -1,12 +1,13 @@
 /*
  * socket.h
  *
- *  Created on: 29-dec.-2016
+ *  Created on: 3-jan.-2017
  *      Author: wdedul01
  */
 
 #ifndef SOCKET_H_
 #define SOCKET_H_
+
 #ifdef _WIN32
 /* See http://stackoverflow.com/questions/12765743/getaddrinfo-on-win32 */
 #ifndef _WIN32_WINNT
@@ -25,6 +26,6 @@
 int sockInit(void);
 int sockQuit(void);
 int sockClose(SOCKET sock);
-int sockBind(SOCKET sock);
+int sockBind(SOCKET sock, int port);
 
 #endif /* SOCKET_H_ */

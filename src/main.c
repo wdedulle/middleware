@@ -8,6 +8,7 @@
  Windows
  Using the standard winsock
  -lws2_32
+ -lpthread
  using libxml from http://xmlsoft.org/sources/win32/64bit/
  -I"C:\Data\lib\libxml\include"
  "C:\Data\lib\iconv\bin\libxml2-2.dll"
@@ -19,94 +20,66 @@
  */
 #pragma pack(1)
 
-#include "main.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include "CreateTCPServerSocket.h"
+#include "HandleTCPClient.h"
+#include "socket.h"
+
+void *threadMain(void *arg);
+
+/* Structure of arguments to pass to client thread */
+typedef struct
+{
+	SOCKET clientSock;
+} ThreadArgs;
 
 int main(void) {
+	int serverSocket;
+	int clientSocket;
+	int serverPort = 8888;
+	pthread_t threadID;
+	ThreadArgs *threadArgs;
 
-//	Individual person = { "test", "mij" };
-//
-//	PartyType partyType;
-//	partyType.individual = &person;
-//
-//	Party party;
-//	party.partyId = "ddddd";
-//	party.partyType = &partyType;
-//
-//	printf("union size %d\n", (int) sizeof(PartyType));
-//
-//	printf("First name:\t%s\nLast name:\t %s\n", person.first_name,
-//			person.last_name);
-//
-//	printf("Party First name:\t%s\nParty Last name:\t %s\n",
-//			party.partyType->individual->first_name,
-//			party.partyType->individual->last_name);
+	printf("starting socket server...\n");
+	serverSocket = CreateTCPServerSocket(serverPort);
+	printf("socket server started...\n");
+	if (serverSocket < 0) {
+		printf("unable to create socker server...\n");
+		return EXIT_FAILURE;
+	}
 
-	printf("starting socket binding...\n");
-	bindSocket();
+	while (1) {
+		clientSocket = accept(serverSocket, NULL, NULL);
+		if (clientSocket == INVALID_SOCKET) {
+			return EXIT_FAILURE;
+		}
+		/* Create separate memory for client argument */
+		threadArgs = (ThreadArgs *) malloc(sizeof(ThreadArgs));
+		if ( threadArgs == NULL) {
+			return EXIT_FAILURE;
+		}
+		threadArgs->clientSock = clientSocket;
+		/* Create client thread */
+		if(pthread_create(&threadID, NULL, threadMain, (void *) threadArgs) != 0) {
+			return EXIT_FAILURE;
+		}
+		printf("with thread %Id\n", (long int) threadID);
+	}
+	sockClose(serverSocket);
+	printf("Socket closed.\n");
+	sockQuit();
+	printf("Socket quit.\n");
 
 	return EXIT_SUCCESS;
 }
 
-void bindSocket() {
+void *threadMain( void *threadArgs )
+{
+	pthread_detach(pthread_self());
 
-	if (sockInit() == 0) {
-		SOCKET s;
-		//Create a socket
-		if ((s = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET) {
-			printf("Could not create socket : %d", WSAGetLastError());
-		}
+	HandleTCPClient( ((ThreadArgs *)threadArgs)->clientSock );
 
-		sockBind(s);
-
-		listen(s, 3);
-
-		struct sockaddr_in client;
-		int c = sizeof(struct sockaddr_in);
-		SOCKET new_socket;
-
-		while ((new_socket = accept(s, (struct sockaddr *) &client, &c))
-				!= INVALID_SOCKET) {
-
-			handleClientSocket(new_socket);
-
-			sockClose(new_socket);
-		}
-
-		sockClose(s);
-		printf("Socket closed.\n");
-		sockQuit();
-		printf("Socket quit.\n");
-	}
-}
-
-void handleClientSocket(SOCKET new_socket) {
-	int recv_size;
-	char clientRequest[SO_MAX_MSG_SIZE];
-	//Receive a reply from the server
-	if ((recv_size = recv(new_socket, clientRequest, SO_MAX_MSG_SIZE, 0))
-			== SOCKET_ERROR) {
-		puts("recv failed");
-	}
-
-	//Add a NULL terminating character to make it a proper string before printing
-	clientRequest[recv_size] = '\0';
-
-	puts(clientRequest);
-	char * requestPayload;
-	char *message;
-	if ((requestPayload = strstr(clientRequest, "\r\n\r\n")) != NULL) {
-		if (xmlProcess(requestPayload) == 0) {
-			message =
-					"HTTP/1.x 200 OK\r\nContent-Length: 19\r\n\r\n<xml>received</xml>";
-		} else {
-			message =
-					"HTTP/1.x 200 OK\r\nContent-type: application/xml\r\nContent-Length: 26\r\n\r\n<xml>failed to parse</xml>";
-		}
-	} else {
-		message =
-				"HTTP/1.x 200 OK\r\nContent-type: application/xml\r\nContent-Length: 13\r\n\r\n<xml>no</xml>";
-	}
-	puts(message);
-
-	send(new_socket, message, (int) strlen(message), 0);
+	return NULL;
 }
