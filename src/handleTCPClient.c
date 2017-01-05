@@ -4,14 +4,15 @@
  *  Created on: 3-jan.-2017
  *      Author: wdedul01
  */
+#include "handleTCPClient.h"
+
 #include <libxml/parser.h>
 #include <libxml/xinclude.h>
 #include "socket.h"
 #include "xml.h"
-#include "HandleTCPClient.h"
 #define RCVBUFSIZE 32
 
-void HandleTCPClient(SOCKET socket) {
+void handleTCPClient(SOCKET socket) {
 	int payloadSize;
 	while ((payloadSize = readRequestPayloadSize(socket)) > 0) {
 		payloadSocketRequest payloadRequest;

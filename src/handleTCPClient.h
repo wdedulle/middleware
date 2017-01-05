@@ -15,7 +15,7 @@ typedef struct {
 	SOCKET clientSocket;
 } payloadSocketRequest;
 
-void HandleTCPClient(SOCKET socket);
+void handleTCPClient(SOCKET socket);
 int readRequestPayloadSize(SOCKET socket);
 void handlePayload(payloadSocketRequest payloadRequest);
 

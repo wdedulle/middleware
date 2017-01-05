@@ -1,3 +1,4 @@
+
 /*
  ============================================================================
  Name        : c_practice.c
@@ -23,8 +24,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
-#include "CreateTCPServerSocket.h"
-#include "HandleTCPClient.h"
+#include "createTCPServerSocket.h"
+#include "handleTCPClient.h"
 #include "socket.h"
 
 void *threadMain(void *arg);
@@ -43,7 +44,7 @@ int main(void) {
 	ThreadArgs *threadArgs;
 
 	printf("starting socket server...\n");
-	serverSocket = CreateTCPServerSocket(serverPort);
+	serverSocket = createTCPServerSocket(serverPort);
 	printf("socket server started...\n");
 	if (serverSocket < 0) {
 		printf("unable to create socker server...\n");
@@ -79,7 +80,7 @@ void *threadMain( void *threadArgs )
 {
 	pthread_detach(pthread_self());
 
-	HandleTCPClient( ((ThreadArgs *)threadArgs)->clientSock );
+	handleTCPClient( ((ThreadArgs *)threadArgs)->clientSock );
 
 	return NULL;
 }

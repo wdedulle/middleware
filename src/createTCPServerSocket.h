@@ -9,6 +9,6 @@
 #define CREATETCPSERVERSOCKET_H_
 #include "socket.h"
 
-SOCKET CreateTCPServerSocket( int port );
+SOCKET createTCPServerSocket( int port );
 
 #endif /* CREATETCPSERVERSOCKET_H_ */

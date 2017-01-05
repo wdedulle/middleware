@@ -7,7 +7,7 @@
 #include "socket.h"
 #define MAXPENDING 5
 
-SOCKET CreateTCPServerSocket( int port ) {
+SOCKET createTCPServerSocket( int port ) {
 
 	if( sockInit() < 0 ) {
 		return -1;
