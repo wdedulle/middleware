@@ -40,7 +40,7 @@
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.cygwin.exe.debug.927686530" name="Cygwin C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.cygwin.exe.debug">
 								<option id="gnu.c.link.option.libs.916655695" name="Libraries (-l)" superClass="gnu.c.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="wsock32"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="pthread"/>
+									<listOptionValue builtIn="false" value="pthread"/>
 								</option>
 								<option id="gnu.c.link.option.userobjs.703396683" name="Other objects" superClass="gnu.c.link.option.userobjs" valueType="userObjs">
 									<listOptionValue builtIn="false" value="&quot;C:\Data\lib\iconv\bin\libxml2-2.dll&quot;"/>

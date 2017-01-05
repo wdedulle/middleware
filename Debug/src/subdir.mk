@@ -4,22 +4,25 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../src/CreateTCPServerSocket.c \
-../src/HandleTCPClient.c \
+../src/acceptTCPConnection.c \
+../src/createTCPServerSocket.c \
+../src/handleTCPClient.c \
 ../src/main.c \
 ../src/socket.c \
 ../src/xml.c 
 
 OBJS += \
-./src/CreateTCPServerSocket.o \
-./src/HandleTCPClient.o \
+./src/acceptTCPConnection.o \
+./src/createTCPServerSocket.o \
+./src/handleTCPClient.o \
 ./src/main.o \
 ./src/socket.o \
 ./src/xml.o 
 
 C_DEPS += \
-./src/CreateTCPServerSocket.d \
-./src/HandleTCPClient.d \
+./src/acceptTCPConnection.d \
+./src/createTCPServerSocket.d \
+./src/handleTCPClient.d \
 ./src/main.d \
 ./src/socket.d \
 ./src/xml.d 

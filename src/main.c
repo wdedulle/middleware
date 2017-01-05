@@ -1,4 +1,3 @@
-
 /*
  ============================================================================
  Name        : c_practice.c
@@ -25,14 +24,14 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include "createTCPServerSocket.h"
+#include "acceptTCPConnection.h"
 #include "handleTCPClient.h"
 #include "socket.h"
 
 void *threadMain(void *arg);
 
 /* Structure of arguments to pass to client thread */
-typedef struct
-{
+typedef struct {
 	SOCKET clientSock;
 } ThreadArgs;
 
@@ -45,42 +44,45 @@ int main(void) {
 
 	printf("starting socket server...\n");
 	serverSocket = createTCPServerSocket(serverPort);
-	printf("socket server started...\n");
 	if (serverSocket < 0) {
 		printf("unable to create socker server...\n");
 		return EXIT_FAILURE;
 	}
+	printf("socket server started...\n");
 
 	while (1) {
-		clientSocket = accept(serverSocket, NULL, NULL);
-		if (clientSocket == INVALID_SOCKET) {
+		clientSocket = acceptTCPConnection(serverSocket);
+		if (clientSocket < 0) {
 			return EXIT_FAILURE;
 		}
+		printf("client accepted...\n");
+
 		/* Create separate memory for client argument */
 		threadArgs = (ThreadArgs *) malloc(sizeof(ThreadArgs));
-		if ( threadArgs == NULL) {
+		if (threadArgs == NULL) {
 			return EXIT_FAILURE;
 		}
 		threadArgs->clientSock = clientSocket;
-		/* Create client thread */
-		if(pthread_create(&threadID, NULL, threadMain, (void *) threadArgs) != 0) {
+		/* Create client handle thread */
+		if (pthread_create(&threadID, NULL, threadMain, (void *) threadArgs)
+				!= 0) {
 			return EXIT_FAILURE;
 		}
-		printf("with thread %Id\n", (long int) threadID);
+
+		printf("with thread %ld\n", (long int) threadID);
 	}
 	sockClose(serverSocket);
 	printf("Socket closed.\n");
 	sockQuit();
 	printf("Socket quit.\n");
-
 	return EXIT_SUCCESS;
 }
 
-void *threadMain( void *threadArgs )
-{
+void *threadMain(void *threadArgs) {
 	pthread_detach(pthread_self());
 
-	handleTCPClient( ((ThreadArgs *)threadArgs)->clientSock );
+	handleTCPClient(((ThreadArgs *) threadArgs)->clientSock);
+	free(threadArgs);
 
-	return NULL;
+	return (NULL);
 }

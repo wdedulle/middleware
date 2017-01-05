@@ -23,34 +23,6 @@ void handleTCPClient(SOCKET socket) {
 	}
 	puts("client closed");
 	sockClose(socket);
-
-	/*
-	 char echoBuffer[RCVBUFSIZE];
-	 int recvMsgSize;
-
-	 // Buffer for echo string
-	 // Size of received message
-	 // Receive message from client
-	 if ((recvMsgSize = recv(socket, echoBuffer, RCVBUFSIZE, 0)) < 0) {
-	 return;
-	 }
-
-	 // Send received string and receive again until end of transmission
-	 // zero indicates end of transmission
-	 while (recvMsgSize > 0) {
-	 // Echo message back to client
-	 if (send(socket, echoBuffer, recvMsgSize, 0) != recvMsgSize) {
-	 return;
-	 }
-
-	 // See if there is more data to receive
-	 if ((recvMsgSize = recv(socket, echoBuffer, RCVBUFSIZE, 0)) < 0) {
-	 return;
-	 }
-	 }
-
-	 close(socket); // Close client socket
-	 */
 }
 
 
@@ -70,23 +42,27 @@ int readRequestPayloadSize(SOCKET socket) {
 }
 
 void handlePayload(payloadSocketRequest payloadRequest) {
-
-	int recv_size;
-
+	int received = 0;
 	char clientPayload[payloadRequest.payloadSize];
-	recv_size = recv(payloadRequest.clientSocket, clientPayload, payloadRequest.payloadSize, 0);
-	if (recv_size == SOCKET_ERROR) {
-		puts("recv clientPayload failed");
-		return;
+
+	while( received < payloadRequest.payloadSize ) {
+		int recv_size;
+		recv_size = recv(payloadRequest.clientSocket, clientPayload+received, 1, 0);
+		if (recv_size == SOCKET_ERROR) {
+			puts("recv clientPayload failed");
+			return;
+		}
+
+		received++;
 	}
 
-	if( recv_size < payloadRequest.payloadSize )  {
+	if( received < payloadRequest.payloadSize )  {
 		puts( clientPayload );
 		return;
 	}
 
 	//Add a NULL terminating character to make it a proper string before printing
-	clientPayload[recv_size] = '\0';
+	clientPayload[received] = '\0';
 
 	char * message;
 	xmlProcess(clientPayload);
